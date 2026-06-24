@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>피로연 메뉴 안내</title>
+    <!-- 폰트 굵기를 더 두꺼운 버전(400, 500, 600, 700)으로 가져옵니다 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #d1ecfd; 
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .ticket {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 450px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-radius: 4px;
+        }
+        .ticket-inner {
+            border: 2px dashed #9bc6e3;
+            padding: 50px 20px;
+            text-align: center;
+            position: relative;
+        }
+        .leaf-decor {
+            color: #8bbadd;
+            font-size: 24px;
+            margin-bottom: 15px;
+            letter-spacing: 15px;
+        }
+        .title-en {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px; /* 영문 크기 확대 */
+            font-weight: 700;
+            line-height: 1.2;
+            margin: 0 0 25px 0;
+            color: #000;
+            letter-spacing: 1px;
+        }
+        .title-kr {
+            font-size: 20px; /* 한글 제목 크기 확대 */
+            font-weight: 600; /* 글씨 굵게 */
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            color: #000;
+        }
+        .info-box {
+            background-color: #eaf6ff;
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 17px;
+            color: #222;
+            font-weight: 500;
+            padding: 6px 0;
+            word-break: keep-all;
+        }
+        .info-row .info-icon {
+            font-size: 18px;
+        }
+        .info-row .info-label {
+            font-weight: 700;
+            color: #3a7ca5;
+            min-width: 52px;
+        }
+        .menu-section {
+            margin-bottom: 20px;
+        }
+        .restaurant-btn {
+            width: 100%;
+            background: none;
+            border: 2px solid #b9d8ed;
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            font-family: 'Noto Sans KR', sans-serif;
+            transition: background-color 0.2s;
+        }
+        .restaurant-btn:hover {
+            background-color: #f0f8ff;
+        }
+        .restaurant-btn .name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #000;
+        }
+        .restaurant-btn .arrow {
+            font-size: 14px;
+            color: #999;
+            transition: transform 0.3s;
+        }
+        .restaurant-btn.active .arrow {
+            transform: rotate(180deg);
+        }
+        .restaurant-type {
+            background-color: #d1ecfd;
+            color: #000;
+            font-size: 15px;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .menu-detail {
+            display: none;
+            padding-top: 15px;
+        }
+        .menu-detail.open {
+            display: block;
+        }
+        .menu-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .menu-items li {
+            font-size: 20px; /* 메뉴 이름 크기 대폭 확대 */
+            color: #111; /* 글자 색상을 더 진한 검정에 가깝게 변경 */
+            padding: 9px 0;
+            font-weight: 500; /* 메뉴 이름 굵게 */
+            letter-spacing: -0.5px;
+        }
+        .menu-items li span {
+            font-size: 16px; /* 부가 설명 크기도 확대 */
+            color: #555;
+            font-weight: 400;
+        }
+        .divider {
+            width: 40px;
+            height: 2px; /* 구분선 굵기 확대 */
+            background-color: #b9d8ed;
+            margin: 40px auto;
+        }
+        .thank-you {
+            margin-top: 50px;
+            font-size: 18px; /* 감사 인사 크기 확대 */
+            line-height: 1.6;
+            color: #222;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            word-break: keep-all; /* 단어 단위로 줄바꿈되어 읽기 편하게 설정 */
+        }
+        .notice-text {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #5a6b78;
+            font-weight: 400;
+            margin: 14px 0 0 0;
+            padding-top: 14px;
+            border-top: 1px solid #cde3f2;
+            word-break: keep-all;
+            text-align: center;
+        }
+        .photo-section {
+            margin-top: 40px;
+            padding-top: 35px;
+            border-top: 2px dashed #b9d8ed;
+        }
+        .photo-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        .photo-desc {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+            font-weight: 400;
+            margin: 0 0 22px 0;
+            word-break: keep-all;
+        }
+        .photo-btn {
+            display: inline-block;
+            background-color: #5a9ec4;
+            color: #fff;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(90,158,196,0.3);
+            transition: background-color 0.2s;
+        }
+        .photo-btn:hover {
+            background-color: #4a8ab0;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <div class="ticket-inner">
+            <div class="leaf-decor">🌿🌿</div>
+            
+            <h1 class="title-en">RECEPTION<br>MENU</h1>
+            <div class="title-kr">피로연 메뉴 안내</div>
+
+            <!-- 리샨 메뉴 -->
+            <div class="menu-section">
+                <button class="restaurant-btn" onclick="toggleSection(this)">
+                    <span class="name">리샨</span>
+                    <span class="restaurant-type">중식</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="menu-detail">
+                    <ul class="menu-items">
+                        <li>유산슬</li>
+                        <li>와사비크림새우</li>
+                        <li>쿵파우치킨</li>
+                        <li>탕수육</li>
+                        <li>코스용짜장면 <span>(리필 가능)</span></li>
+                        <li>지마구 <span>(찹쌀깨빵)</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 매드포갈릭 메뉴 -->
+            <div class="menu-section">
+                <button class="restaurant-btn" onclick="toggleSection(this)">
+                    <span class="name">매드포갈릭</span>
+                    <span class="restaurant-type">양식</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="menu-detail">
+                    <ul class="menu-items">
+                        <li>트러플 머쉬룸 수프</li>
+                        <li>시져 샐러드 & 마늘브레드</li>
+                        <li>안심스테이크</li>
+                        <li>볶음밥</li>
+                        <li>감자튀김</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-row">
+                    <span class="info-icon">🕯️</span>
+                    <span class="info-label">시간</span>
+                    <span>11:00 ~ 13:00 이용 가능</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">📍</span>
+                    <span class="info-label">위치</span>
+                    <span>지하 1층</span>
+                </div>
+                <p class="notice-text">
+                    각 식당별 최대 수용 인원이 정해져 있어<br>
+                    상황에 따라 이용 가능한 식당으로<br>
+                    안내해 드릴 수 있는 점, 깊은 양해 부탁드립니다.
+                </p>
+            </div>
+
+            <div class="photo-section">
+                <div class="photo-icon">📸</div>
+                <p class="photo-desc">결혼식의 소중한 순간을<br>함께 공유해주세요.<br>예쁜 사진을 남겨주셔서 감사합니다</p>
+                <a class="photo-btn" href="https://eunyuluv0704.dayalbum.com/260704-0731" target="_blank">사진 공유하기</a>
+            </div>
+
+            <div class="thank-you">
+                먼 길 찾아와 자리를 빛내주신 모든 분들께<br>진심으로 감사드립니다
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleSection(btn) {
+            var detail = btn.nextElementSibling;
+            btn.classList.toggle('active');
+            detail.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
